@@ -1,10 +1,11 @@
 """
 Test for models.
 """
-from sre_constants import SUCCESS
-from unittest.case import _AssertRaisesContext
+
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+
 
 class ModelTest(TestCase):
     """ Test form models. """
@@ -13,7 +14,7 @@ class ModelTest(TestCase):
         """Test creating a user with email successful """
         email = 'test@example.com'
         password = 'testpass123'
-        user =get_user_model().objects.create_user(
+        user = get_user_model().objects.create_user(
             email=email,
             password=password,
         )
@@ -40,7 +41,7 @@ class ModelTest(TestCase):
 
     def test_create_superuser(self):
         """Test creating a superuser"""
-        user =get_user_model().objects.create_superuser(
+        user = get_user_model().objects.create_superuser(
             'test@example.com',
             'test123',
         )

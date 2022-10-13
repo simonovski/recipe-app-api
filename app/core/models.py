@@ -1,8 +1,8 @@
 """
 Database models.
 """
-from email.policy import default
-from enum import unique
+
+
 from django.db import models # noqa
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -10,15 +10,15 @@ from django.contrib.auth.models import (
     PermissionsMixin
 )
 
+
 class UserManager(BaseUserManager):
     """ Manager fo users. """
-
 
     def create_user(self, email, password=None, **extra_fields):
         """ Create safe and return new user. """
         if not email:
             raise ValueError('User must have an email address')
-        user=self.model(email=self.normalize_email(email), **extra_fields)
+        user = self.model(email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
 
@@ -32,6 +32,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
 
         return user
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     """ User in the system. """
