@@ -33,7 +33,7 @@ class PublicUserApiTests(TestCase):
         res = self.client.post(CREATE_USER_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-        user = get_user_model().objects.get(email = payload['email'])
+        user = get_user_model().objects.get(email=payload['email'])
         self.assertTrue(user.check_password(payload['password']))
         self.assertNotIn('password', res.data)
 
@@ -86,21 +86,21 @@ class PublicUserApiTests(TestCase):
         """Test returns error if credentials invalid."""
         create_user(email='test@example.com', password='goodpass')
 
-        payload = {'email': 'test@example.com','password': 'badpass'}
+        payload = {'email': 'test@example.com', 'password': 'badpass'}
         res = self.client.post(TOKEN_URL, payload)
 
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_token_blank_password(self):
-        """Test posting a blank password retuns an error."""
-        payload = {'email': 'test@exampla.com', 'password': ''}
+        """Test posting a blank password returns an error."""
+        payload = {'email': 'test@example.com', 'password': ''}
         res = self.client.post(TOKEN_URL, payload)
 
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_retreive_user_uauthorize(self):
+    def test_retrieve_user_unauthorized(self):
         """Test Authentication is required for users."""
         res = self.client.get(ME_URL)
 
@@ -118,10 +118,11 @@ class PrivateUserApiTests(TestCase):
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
 
-        def test_retreive_profile_success(self):
-            """Test retreiving profile for logged in user."""
-            res = self.cleint.get(ME_URL)
+        def test_retrieve_profile_success(self):
+            """Test retrieving profile for logged in user."""
+            res = self.client.get(ME_URL)
 
+            self.assertEqual(res.status_code, status.HTTP_200_OK)
             self.assertEqual(res.data, {
                 'name': self.user.name,
                 'email': self.user.email,
@@ -129,13 +130,13 @@ class PrivateUserApiTests(TestCase):
 
         def test_post_me_not_allowed(self):
             """Test POST is not allowed for the me endpoint."""
-            res = self.cleint.post(ME_URL, {})
+            res = self.client.post(ME_URL, {})
 
             self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
         def test_update_user_profile(self):
-            """Test updateing user profile for the authenticated user."""
-            payload = {'name': 'Updated Name', 'password': 'newpassword123'}
+            """Test updateing the user profile for the authenticated user."""
+            payload = {'name': 'Updated name', 'password': 'newpassword123'}
 
             res = self.client.patch(ME_URL, payload)
 
