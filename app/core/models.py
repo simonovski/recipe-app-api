@@ -4,7 +4,7 @@ Database models.
 from django.conf import settings
 
 
-from django.db import models # noqa
+from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -13,7 +13,7 @@ from django.contrib.auth.models import (
 
 
 class UserManager(BaseUserManager):
-    """ Manager fo users. """
+    """Manager fo users."""
 
     def create_user(self, email, password=None, **extra_fields):
         """ Create safe and return new user. """
@@ -45,6 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
 
 class Recipe(models.Model):
     """Recipe object."""
