@@ -9,16 +9,19 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from core.models import Tag
+
 from recipe.serializers import TagSerializer
 
+
 TAGS_URL = reverse('recipe:tag-list')
+
 
 def create_user(email='user@example.com', password='testpass123'):
     """Create and return a user."""
     return get_user_model().objects.create_user(email=email, password=password)
 
 class PublicTagsApiTests(TestCase):
-    """test unauthenticated API requests."""
+    """Test unauthenticated API requests."""
 
     def setUp(self):
         self.client = APIClient()
@@ -34,10 +37,10 @@ class PrivateTagsApiTests(TestCase):
 
     def setUp(self):
         self.user = create_user()
-        self.cleint = APIClient()
-        self.cleint.force_authenticate(self.user)
+        self.client = APIClient()
+        self.client.force_authenticate(self.user)
 
-    def test_retrieving_tags(self):
+    def test_retrieve_tags(self):
         """Test retrieving a list of tags."""
         Tag.objects.create(user=self.user, name='Vegan')
         Tag.objects.create(user=self.user, name='Desser')
@@ -58,6 +61,6 @@ class PrivateTagsApiTests(TestCase):
         res = self.client.get(TAGS_URL)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(len.data, 1)
-        self.asserEqual(res.data[0]['name', tag.name])
+        self.assertEqual(len(res.data), 1)
+        self.assertEqual(res.data[0]['name'], tag.name)
         self.assertEqual(res.data[0]['id'], tag.id)
