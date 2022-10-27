@@ -13,8 +13,8 @@ def create_user(email='usertag@example.com', password="testpass123"):
     """Create and retuern a new user."""
     return get_user_model().objects.create(email, password)
 
-class ModelTest(TestCase):
-    """ Test form models. """
+class ModelTests(TestCase):
+    """Test form models."""
 
     def test_create_user_with_email_successful(self):
         """Test creating a user with an email is successful."""
@@ -66,7 +66,7 @@ class ModelTest(TestCase):
             title='Sample recipe name',
             time_minutes=5,
             price=Decimal('5.50'),
-            description='Sample reciepe description.',
+            description='Sample recipe description.',
         )
 
         self.assertEqual(str(recipe), recipe.title)
