@@ -47,7 +47,7 @@ class PrivateTagsApiTests(TestCase):
     def test_retrieve_tags(self):
         """Test retrieving a list of tags."""
         Tag.objects.create(user=self.user, name='Vegan')
-        Tag.objects.create(user=self.user, name='Desser')
+        Tag.objects.create(user=self.user, name='Dessert')
 
         res = self.client.get(TAGS_URL)
 
@@ -60,7 +60,7 @@ class PrivateTagsApiTests(TestCase):
         """Test list of tags is limited to authenticated user."""
         user2 = create_user(email='user2@example.com')
         Tag.objects.create(user=user2, name='Fruity')
-        tag = Tag.objects.create(user=self.user, name='Confort Food')
+        tag = Tag.objects.create(user=self.user, name='Comfort Food')
 
         res = self.client.get(TAGS_URL)
 
@@ -71,7 +71,7 @@ class PrivateTagsApiTests(TestCase):
 
     def test_update_tag(self):
         """Test updateing a tag."""
-        tag = Tag.objects.create(user=self.user, name='After Diner')
+        tag = Tag.objects.create(user=self.user, name='After Dinner')
 
         payload = {'name': 'Dessert'}
         url = detail_url(tag.id)
