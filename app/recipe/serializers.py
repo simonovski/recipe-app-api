@@ -61,10 +61,3 @@ class RecipeDetailSerializer(RecipeSerializer):
 
         instance.save()
         return instance
-
-
-
-
-
-
-
