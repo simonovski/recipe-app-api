@@ -1,7 +1,7 @@
 """
 Tests for recipe APIs.
 """
-from decimal import Decimal, DecimalException
+from decimal import Decimal
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -335,10 +335,10 @@ class PrivateRecipeApiTests(TestCase):
         res = self.client.patch(url, payload, format='json')
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        new_ingredient = Ingredient.objects.create(user=self.user, name='Limes')
+        new_ingredient = Ingredient.objects.get(user=self.user, name='Limes')
         self.assertIn(new_ingredient, recipe.ingredients.all())
 
-    def test_update_recipe_assing_ingredient(self):
+    def test_update_recipe_assign_ingredient(self):
         """Test assiging an existing ingredient when updating a recipe."""
         ingredient1 = Ingredient.objects.create(user=self.user, name='Pepper')
         recipe = create_recipe(user=self.user)

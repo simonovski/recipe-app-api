@@ -22,7 +22,7 @@ def create_user(email='user@example.com', password='testpass123'):
     """Create and return user."""
     return get_user_model().objects.create_user(email=email, password=password)
 
-class PublicIngredientsAPITests(TestCase):
+class PublicIngredientsApiTests(TestCase):
     """Test unauthenticated API requests."""
 
     def setUp(self):
@@ -45,7 +45,7 @@ class PrivateIngredientsApiTests(TestCase):
     def test_retrieve_ingredients(self):
         """Test retrieving a list of ingredients."""
         Ingredient.objects.create(user=self.user, name='Kale')
-        Ingredient.objects.create(user=self.user, name='Vannila')
+        Ingredient.objects.create(user=self.user, name='Vanilla')
 
         res = self.client.get(INGREDIENTS_URL)
 
@@ -56,7 +56,7 @@ class PrivateIngredientsApiTests(TestCase):
 
     def test_ingredients_limited_to_user(self):
         """Test list of ingredients is limited to authenticated users."""
-        user2= create_user(email='user2@example.com')
+        user2 = create_user(email='user2@example.com')
         Ingredient.objects.create(user=user2, name='Salt')
         ingredient = Ingredient.objects.create(user=self.user, name='Pepper')
 
@@ -79,7 +79,7 @@ class PrivateIngredientsApiTests(TestCase):
         ingredient.refresh_from_db()
         self.assertEqual(ingredient.name, payload['name'])
 
-    def test_delete_ingredient(self):
+    def test_delete_ingredients(self):
         """Test deleting an ingredient."""
         ingredient = Ingredient.objects.create(user=self.user, name='Lettuce')
 
