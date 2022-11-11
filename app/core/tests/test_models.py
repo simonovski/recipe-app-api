@@ -10,9 +10,11 @@ from django.contrib.auth import get_user_model
 
 from core import models
 
+
 def create_user(email='usertag@example.com', password="testpass123"):
     """Create and return a new user."""
     return get_user_model().objects.create_user(email, password)
+
 
 class ModelTests(TestCase):
     """Test form models."""
@@ -97,5 +99,3 @@ class ModelTests(TestCase):
             file_path = models.recipe_image_file_path(None, 'example.jpg')
 
             self.assertEqual(file_path, f'uploads/recipe/{uuid}.jpg')
-
-

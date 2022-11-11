@@ -45,7 +45,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
     """View for manage recipe APIs."""
     serializer_class = serializers.RecipeDetailSerializer
     queryset = Recipe.objects.all()
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def _params_to_ints(self, qs):
@@ -93,6 +92,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
+
 @extend_schema_view(
     list=(extend_schema(
         parameters=[
@@ -109,7 +109,6 @@ class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
                             mixins.ListModelMixin,
                             viewsets.GenericViewSet):
     """Base ViewSet for Recipe attributes."""
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -136,4 +135,3 @@ class IngredientViewSet(BaseRecipeAttrViewSet):
     """Manage ingredients in the database."""
     serializer_class = serializers.IngredientSerializer
     queryset = Ingredient.objects.all()
-
